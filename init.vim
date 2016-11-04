@@ -4,7 +4,7 @@ set nocompatible
 " All Plugins!
 call plug#begin()
 Plug 'kien/ctrlp.vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'icymind/NeoSolarized'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree'
 Plug 'nono/jquery.vim'
@@ -32,6 +32,7 @@ call plug#end()
 if &term =~ '256color'
   set t_ut=
 endif
+set termguicolors
 
 " Basic configuration
 syntax on
@@ -76,7 +77,7 @@ nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-colo solarized
+colo NeoSolarized 
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 nnoremap <up> <nop>

@@ -10,6 +10,7 @@ Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'bronson/vim-trailing-whitespace'
 
 Plug 'pangloss/vim-javascript'
 Plug 'nono/jquery.vim'
@@ -81,7 +82,7 @@ nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-colo NeoSolarized 
+colo NeoSolarized
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 nnoremap <up> <nop>

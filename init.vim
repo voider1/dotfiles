@@ -72,6 +72,7 @@ set cursorline
 set title
 set titleold="Terminal"
 set titlestring=%F
+set exrc
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
@@ -97,7 +98,6 @@ map <C-n> :NERDTreeToggle<CR>
 
 " Map neovim-fuzzy plugin
 nnoremap <C-p> :FuzzyOpen<CR>
-
 
 " Configure Nerd Tree, ignore some files and nice style
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$', '\.dSYM$']

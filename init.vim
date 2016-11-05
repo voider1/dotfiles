@@ -97,9 +97,16 @@ tnoremap <Esc> <C-\><C-n>
 autocmd! BufWritePost,BufEnter * Neomake
 au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 autocmd BufEnter * :syntax sync fromstart
-map <C-n> :NERDTreeToggle<CR>
+
+" Configure Ctrl-p
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = {
+  \ 'file': '\v\.(.pyc|class)$'
+  \ }
 
 " Configure Nerd Tree, ignore some files and nice style
+map <C-n> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$', '\.dSYM$']
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 let g:netrw_liststyle=3

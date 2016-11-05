@@ -3,29 +3,34 @@ set nocompatible
 
 " All Plugins!
 call plug#begin()
-Plug 'kien/ctrlp.vim'
 Plug 'icymind/NeoSolarized'
-Plug 'benekastah/neomake'
+
+Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+
+Plug 'pangloss/vim-javascript'
 Plug 'nono/jquery.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
-Plug 'pangloss/vim-javascript'
 Plug 'applescript.vim'
+Plug 'othree/html5.vim'
+Plug 'stanangeloff/php.vim'
+Plug 'mitsuhiko/vim-jinja'
+Plug 'cespare/vim-toml'
+Plug 'mitsuhiko/vim-python-combined'
+Plug 'hdima/python-syntax'
+
+Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pbogut/deoplete-padawan'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang'
 Plug 'carlitux/deoplete-ternjs'
-Plug 'othree/html5.vim'
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'stanangeloff/php.vim'
-Plug 'mitsuhiko/vim-jinja'
-Plug 'mitsuhiko/vim-python-combined'
 Plug 'maksimr/vim-jsbeautify'
-Plug 'cespare/vim-toml'
-Plug 'tpope/vim-fugitive'
 call plug#end()
 
 " Fix tmux issues
@@ -115,7 +120,7 @@ let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.8.1/lib/l
 let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.8.1/lib/clang"
 
 " Configure Neomake
-let g:neomake_python_enabled_makers = ['flake8']
+let g:neomake_python_enabled_makers = ['flake8', 'python']
 let g:neomake_python_flake8_maker = {
     \ 'args': ['--ignore=E121,E128,E711,E301,E261,E241,E124,E126,E721',
     \ '--max-line-length=84']

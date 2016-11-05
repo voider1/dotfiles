@@ -52,7 +52,6 @@ set expandtab
 set background=dark
 set fileformats=unix,dos,mac
 filetype plugin indent on
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 set ttyfast
 let mapleader=","
 set scrolloff=5

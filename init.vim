@@ -100,9 +100,6 @@ au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 autocmd BufEnter * :syntax sync fromstart
 map <C-n> :NERDTreeToggle<CR>
 
-" Map neovim-fuzzy plugin
-nnoremap <C-p> :FuzzyOpen<CR>
-
 " Configure Nerd Tree, ignore some files and nice style
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$', '\.dSYM$']
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif

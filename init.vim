@@ -3,8 +3,10 @@ set nocompatible
 
 " All Plugins!
 call plug#begin()
+" Colorscheme
 Plug 'icymind/NeoSolarized'
 
+" Utility
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -12,6 +14,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
 
+" Syntax files
 Plug 'pangloss/vim-javascript'
 Plug 'nono/jquery.vim'
 Plug 'rust-lang/rust.vim'
@@ -24,6 +27,7 @@ Plug 'cespare/vim-toml'
 Plug 'mitsuhiko/vim-python-combined'
 Plug 'hdima/python-syntax'
 
+" Autocomplete files
 Plug 'benekastah/neomake'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pbogut/deoplete-padawan'

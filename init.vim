@@ -5,8 +5,7 @@ set nocompatible
 call plug#begin()
 Plug 'icymind/NeoSolarized'
 
-Plug 'kien/ctrlp.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'

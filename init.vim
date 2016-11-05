@@ -105,12 +105,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(.pyc|class)$'
   \ }
 
-" Configure Nerd Tree, ignore some files and nice style
-map <C-n> :NERDTreeToggle<CR>
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$', '\.dSYM$']
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-let g:netrw_liststyle=3
-
 " Enable Deoplete on startup
 let g:deoplete#enable_at_startup = 1
 " Deoplete tab-complete

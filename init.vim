@@ -121,12 +121,16 @@ let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.8.1/lib/l
 let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.8.1/lib/clang"
 
 " Configure Neomake
-let g:neomake_python_enabled_makers = ['flake8', 'python']
+let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_python_flake8_maker = {
     \ 'args': ['--ignore=E121,E128,E711,E301,E261,E241,E124,E126,E721',
     \ '--max-line-length=84']
     \ }
 let g:neomake_javascript_enabled_makers = ['jshint']
+let g:neomake_echo_current_error=1
+let g:neomake_verbose=0
+let g:neomake_rust_enabled_makers = []
+autocmd BufWritePost,BufWinEnter *.rs verbose NeomakeProject cargo
 
 " Configure Airline
 let g:airline_powerline_fonts = 1

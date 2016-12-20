@@ -26,6 +26,7 @@ Plug 'mitsuhiko/vim-jinja'
 Plug 'cespare/vim-toml'
 Plug 'mitsuhiko/vim-python-combined'
 Plug 'hdima/python-syntax'
+Plug 'hail2u/vim-css3-syntax'
 
 " Autocomplete files
 Plug 'benekastah/neomake'
@@ -34,6 +35,7 @@ Plug 'pbogut/deoplete-padawan'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang'
 Plug 'carlitux/deoplete-ternjs'
+Plug 'sebastianmarkow/deoplete-rust'
 Plug 'maksimr/vim-jsbeautify'
 call plug#end()
 
@@ -67,7 +69,7 @@ set autoindent
 set copyindent
 set hlsearch
 set incsearch
-set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib
+set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib,*/venv
 set visualbell
 set gdefault
 set autoread
@@ -119,6 +121,11 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Deoplete c_lang completion
 let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.8.1/lib/libclang.dylib"
 let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.8.1/lib/clang"
+" Deoplete Rust completion
+let g:deoplete#sources#rust#racer_binary = "/Users/wesleygahr/.cargo/bin/racer"
+let g:deoplete#sources#rust#rust_source_path = "/Users/wesleygahr/Development/required/rust/src"
+let g:deoplete#sources#rust#disable_keymap=1
+let g:deoplete#sources#rust#documentation_max_height=20
 
 " Configure Neomake
 let g:neomake_python_enabled_makers = ['flake8']

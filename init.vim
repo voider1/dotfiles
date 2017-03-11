@@ -30,6 +30,8 @@ Plug 'hail2u/vim-css3-syntax'
 
 " Autocomplete files
 Plug 'benekastah/neomake'
+Plug 'shougo/neocomplete.vim'
+Plug 'sbdchd/neoformat'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pbogut/deoplete-padawan'
 Plug 'zchee/deoplete-jedi'
@@ -37,13 +39,17 @@ Plug 'zchee/deoplete-clang'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'maksimr/vim-jsbeautify'
+Plug 'sebastianmarkow/deoplete-rust'
 call plug#end()
 
-" Fix tmux issues
-if &term =~ '256color'
-  set t_ut=
+if has("termguicolors")
+    set termguicolors
 endif
-set termguicolors
+
+if !has("gui_running")
+    set t_Co=256
+endif
+
 
 " Basic configuration
 syntax on
@@ -56,8 +62,8 @@ set shiftwidth=4
 set tabstop=8
 set smarttab
 set expandtab
-set background=dark
 set fileformats=unix,dos,mac
+set background=dark
 filetype plugin indent on
 set ttyfast
 let mapleader=","
@@ -83,6 +89,7 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 set exrc
+set background=dark
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
@@ -164,7 +171,6 @@ autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType css setlocal commentstring=/*\ %s\ */
 autocmd FileType css noremap <buffer> <leader>r :call CSSBeautify()<cr>
 autocmd FileType scss setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType java setlocal shiftwidth=2 tabstop=8 softtabstop=2 expandtab
 autocmd FileType java setlocal commentstring=//\ %s
 autocmd FileType cs setlocal tabstop=8 softtabstop=4 shiftwidth=4 expandtab
 autocmd FileType cs setlocal commentstring=//\ %s

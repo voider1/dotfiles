@@ -13,6 +13,10 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'qpkorr/vim-bufkill'
+Plug 'mattn/webapi-vim'
 
 " Syntax files
 Plug 'pangloss/vim-javascript'
@@ -30,7 +34,6 @@ Plug 'hail2u/vim-css3-syntax'
 
 " Autocomplete files
 Plug 'benekastah/neomake'
-Plug 'shougo/neocomplete.vim'
 Plug 'sbdchd/neoformat'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'pbogut/deoplete-padawan'
@@ -54,6 +57,7 @@ endif
 " Basic configuration
 syntax on
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+set clipboard=unnamed
 set number
 set hidden
 set ruler
@@ -63,7 +67,6 @@ set tabstop=8
 set smarttab
 set expandtab
 set fileformats=unix,dos,mac
-set background=dark
 filetype plugin indent on
 set ttyfast
 let mapleader=","
@@ -89,13 +92,14 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 set exrc
-set background=dark
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 colo NeoSolarized
+set background=dark
+let base16colorspace=256
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 nnoremap <up> <nop>
@@ -143,8 +147,11 @@ let g:neomake_python_flake8_maker = {
 let g:neomake_javascript_enabled_makers = ['jshint']
 let g:neomake_echo_current_error=1
 let g:neomake_verbose=0
-let g:neomake_rust_enabled_makers = []
-autocmd BufWritePost,BufWinEnter *.rs verbose NeomakeProject cargo
+let g:neomake_rust_enabled_makers = ['cargo']
+" autocmd BufWritePost,BufWinEnter *.rs NeomakeProject cargo
+
+" Nerdtree keybindings
+map <C-n> :NERDTreeToggle<CR>
 
 " Configure Airline
 let g:airline_powerline_fonts = 1

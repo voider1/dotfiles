@@ -131,7 +131,7 @@ let g:neomake_python_flake8_maker = {
     \ }
 let g:neomake_echo_current_error=1
 let g:neomake_verbose=0
-let g:neomake_rust_enabled_makers = []
+let g:neomake_rust_enabled_makers = ['cargo']
 
 " Nerdtree keybindings
 map <C-n> :NERDTreeToggle<CR>

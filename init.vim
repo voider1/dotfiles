@@ -23,26 +23,19 @@ Plug 'pangloss/vim-javascript'
 Plug 'nono/jquery.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
-Plug 'applescript.vim'
 Plug 'othree/html5.vim'
 Plug 'stanangeloff/php.vim'
 Plug 'mitsuhiko/vim-jinja'
 Plug 'cespare/vim-toml'
-Plug 'mitsuhiko/vim-python-combined'
 Plug 'hdima/python-syntax'
 Plug 'hail2u/vim-css3-syntax'
+Plug 'udalov/kotlin-vim'
 
-" Autocomplete files
+" Autocompletion
 Plug 'benekastah/neomake'
 Plug 'sbdchd/neoformat'
+Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'pbogut/deoplete-padawan'
-Plug 'zchee/deoplete-jedi'
-Plug 'zchee/deoplete-clang'
-Plug 'carlitux/deoplete-ternjs'
-Plug 'sebastianmarkow/deoplete-rust'
-Plug 'maksimr/vim-jsbeautify'
-Plug 'sebastianmarkow/deoplete-rust'
 call plug#end()
 
 if has("termguicolors")
@@ -92,6 +85,7 @@ set title
 set titleold="Terminal"
 set titlestring=%F
 set exrc
+set relativenumber
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
@@ -129,26 +123,15 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " let g:deoplete#disable_auto_complete = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-" Deoplete c_lang completion
-let g:deoplete#sources#clang#libclang_path = "/usr/local/Cellar/llvm/3.8.1/lib/libclang.dylib"
-let g:deoplete#sources#clang#clang_header = "/usr/local/Cellar/llvm/3.8.1/lib/clang"
-" Deoplete Rust completion
-let g:deoplete#sources#rust#racer_binary = "/Users/wesleygahr/.cargo/bin/racer"
-let g:deoplete#sources#rust#rust_source_path = "/Users/wesleygahr/Development/required/rust/src"
-let g:deoplete#sources#rust#disable_keymap=1
-let g:deoplete#sources#rust#documentation_max_height=20
 
 " Configure Neomake
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_python_flake8_maker = {
-    \ 'args': ['--ignore=E121,E128,E711,E301,E261,E241,E124,E126,E721',
-    \ '--max-line-length=84']
+    \ 'args': ['--max-line-length=84']
     \ }
-let g:neomake_javascript_enabled_makers = ['jshint']
 let g:neomake_echo_current_error=1
 let g:neomake_verbose=0
-let g:neomake_rust_enabled_makers = ['cargo']
-" autocmd BufWritePost,BufWinEnter *.rs NeomakeProject cargo
+let g:neomake_rust_enabled_makers = []
 
 " Nerdtree keybindings
 map <C-n> :NERDTreeToggle<CR>
@@ -161,12 +144,22 @@ let g:airline_section_z = airline#section#create_right(['%3l:%2c'])
 let g:airline#extensions#ctrlp#color_template = 'replace'
 let g:airline#extensions#tabline#enabled = 1
 
+" LSP config
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'python': ['pyls'],
+    \ 'javascript': ['/Users/wesleygahr/Development/required/javascript-typescript-langserver/lib/language-server-stdio.js'],
+    \ }
+let g:LanguageClient_autoStart = 1
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
 " Some custom file configuration
 autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8
 \ formatoptions=croqj softtabstop=4 textwidth=74 comments=:#\:,:#
 let python_highlight_all=1
-let python_highlight_exceptions=0
-let python_highlight_builtins=0
 let python_slow_sync=1
 autocmd FileType php setlocal shiftwidth=4 tabstop=8 softtabstop=4 expandtab
 autocmd FileType html,htmljinja,htmldjango imap <buffer> <c-e> <Plug>SparkupExecute

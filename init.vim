@@ -1,10 +1,10 @@
-"No Compatibility, very annoying on RH/Windows/MacOS
+" No Compatibility, very annoying on RH/Windows/MacOS
 set nocompatible
 
 " All Plugins!
 call plug#begin()
 " Colorscheme
-Plug 'icymind/NeoSolarized'
+Plug 'chriskempson/base16-vim'
 
 " Utility
 Plug 'ctrlpvim/ctrlp.vim'
@@ -29,7 +29,7 @@ Plug 'mitsuhiko/vim-jinja'
 Plug 'cespare/vim-toml'
 Plug 'hdima/python-syntax'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'udalov/kotlin-vim'
+Plug 'tmux-plugins/vim-tmux'
 
 " Autocompletion
 Plug 'benekastah/neomake'
@@ -47,58 +47,54 @@ if !has("gui_running")
 endif
 
 
-" Basic configuration
+colorscheme base16-tomorrow-night
 syntax on
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-set clipboard=unnamed
+set nowrap " Don't wrap lines
+set tabstop=4 " Tabs are 4 spaces
+set backspace=indent,eol,start " Allow backspacing over anything
+set autoindent
+set copyindent " Copy the previous indentation on auto indentation
+set shiftwidth=4 " Number of spaces for auto indenting
+set shiftround " Use multiple of shiftwidth when indenting with < and >
+set showmatch " Show matching parenethesis
+set smarttab " Insert tabs on the start of the line according to shiftwidth
+set expandtab " Insert spaces instead of tabs
+set cursorline " Highlight the line the cursor is on
+set nofoldenable " No folding
+
 set number
-set hidden
-set ruler
-set guioptions-=T
-set shiftwidth=4
-set tabstop=8
-set smarttab
-set expandtab
+set hidden " Hide buffers instead of closing them
+set hlsearch " Highlight search terms
+set incsearch " Show mathces as you type
+set gdefault " g flag on by default when searching
 set fileformats=unix,dos,mac
 filetype plugin indent on
-set ttyfast
-let mapleader=","
-set scrolloff=5
-set backspace=2
-set nowrap
-set showmatch
-set autoindent
-set copyindent
-set hlsearch
-set incsearch
-set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib,*/venv,*/target
-set visualbell
-set gdefault
-set autoread
-set noerrorbells
-set vb t_vb=
-set nobackup
-set noswapfile
-set pastetoggle=<F2>
-set cursorline
+set scrolloff=5 " Always have 5 lines above and below the cursor
+set visualbell " Visual bell instead of beeping
+set noerrorbells " Don't ring the error bells
 set title
 set titleold="Terminal"
 set titlestring=%F
-set exrc
-set relativenumber
+set relativenumber " Relative line numbering
+let base16colorspace=256
+
+set clipboard=unnamed " Use system clipboard
+set wildignore+=*.dll,*.o,*.pyc,*.bak,*.exe,*.jpg,*.jpeg,*.png,*.gif,*$py.class,*.class,*/*.dSYM/*,*.dylib,*/venv,*/target " Ignore these while searching
+let mapleader="," " Change leader to ,
+set ttyfast " Make stuff faster
+set autoread " Automatically reread file if changed outisde vim
+set nobackup
+set noswapfile
+set pastetoggle=<F2>
+set exrc " Enables reading .exrc in current directory
+
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
 cmap w!! w !sudo tee % >/dev/null
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-colo NeoSolarized
-set background=dark
-let base16colorspace=256
 nnoremap <left> <nop>
 nnoremap <right> <nop>
 nnoremap <up> <nop>
 nnoremap <down> <nop>
-set nofoldenable
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -106,8 +102,11 @@ nnoremap <C-H> <C-W><C-H>
 nnoremap <Tab> :bn<CR>
 nnoremap <S-Tab> :bp<CR>
 tnoremap <Esc> <C-\><C-n>
-autocmd! BufWritePost,BufEnter * Neomake
-au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
+
+autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
 autocmd BufEnter * :syntax sync fromstart
 
 " Configure Ctrl-p
@@ -117,7 +116,6 @@ let g:ctrlp_custom_ignore = {
   \ 'file': '\v\.(.pyc|class)$'
   \ }
 
-" Enable Deoplete on startup
 let g:deoplete#enable_at_startup = 1
 " Deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -125,13 +123,14 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Configure Neomake
+autocmd! BufWritePost,BufEnter * Neomake
 let g:neomake_python_enabled_makers = ['flake8']
 let g:neomake_python_flake8_maker = {
     \ 'args': ['--max-line-length=84']
     \ }
 let g:neomake_echo_current_error=1
 let g:neomake_verbose=0
-let g:neomake_rust_enabled_makers = ['cargo']
+let g:neomake_rust_enabled_makers = []
 
 " Nerdtree keybindings
 map <C-n> :NERDTreeToggle<CR>
@@ -151,7 +150,6 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/Users/wesleygahr/Development/required/javascript-typescript-langserver/lib/language-server-stdio.js'],
     \ }
 let g:LanguageClient_autoStart = 1
-
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>

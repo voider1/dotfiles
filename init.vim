@@ -138,13 +138,6 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
-" Configure Ctrl-p
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_custom_ignore = {
-  \ 'file': '\v\.(.pyc|class)$'
-  \ }
-
 let g:deoplete#enable_at_startup = 1
 " Deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"

@@ -20,20 +20,10 @@ Plug 'qpkorr/vim-bufkill'
 Plug 'mattn/webapi-vim'
 
 " Syntax files
-Plug 'pangloss/vim-javascript'
-Plug 'nono/jquery.vim'
-Plug 'rust-lang/rust.vim'
-Plug 'keith/swift.vim'
-Plug 'othree/html5.vim'
-Plug 'stanangeloff/php.vim'
-Plug 'mitsuhiko/vim-jinja'
-Plug 'cespare/vim-toml'
-Plug 'hdima/python-syntax'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'tmux-plugins/vim-tmux'
+Plug 'sheerun/vim-polyglot'
 
 " Autocompletion
-Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
 Plug 'sbdchd/neoformat'
 Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -144,16 +134,6 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " let g:deoplete#disable_auto_complete = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" Configure Neomake
-autocmd! BufWritePost,BufEnter * Neomake
-let g:neomake_python_enabled_makers = ['flake8']
-let g:neomake_python_flake8_maker = {
-    \ 'args': ['--max-line-length=84']
-    \ }
-let g:neomake_echo_current_error=1
-let g:neomake_verbose=0
-let g:neomake_rust_enabled_makers = []
-
 " Nerdtree keybindings
 map <C-n> :NERDTreeToggle<CR>
 
@@ -172,37 +152,7 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['/Users/wesleygahr/Development/required/javascript-typescript-langserver/lib/language-server-stdio.js'],
     \ }
 let g:LanguageClient_autoStart = 1
+
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-
-" Some custom file configuration
-autocmd FileType python setlocal expandtab shiftwidth=4 tabstop=8
-\ formatoptions=croqj softtabstop=4 textwidth=74 comments=:#\:,:#
-let python_highlight_all=1
-let python_slow_sync=1
-autocmd FileType php setlocal shiftwidth=4 tabstop=8 softtabstop=4 expandtab
-autocmd FileType html,htmljinja,htmldjango imap <buffer> <c-e> <Plug>SparkupExecute
-autocmd FileType html,htmljinja,htmldjango imap <buffer> <c-l> <Plug>SparkupNext
-autocmd FileType html setlocal commentstring=<!--\ %s\ -->
-autocmd FileType htmljinja setlocal commentstring={#\ %s\ #}
-let html_no_rendering=1
-autocmd FileType css setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType css setlocal commentstring=/*\ %s\ */
-autocmd FileType css noremap <buffer> <leader>r :call CSSBeautify()<cr>
-autocmd FileType scss setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType java setlocal commentstring=//\ %s
-autocmd FileType cs setlocal tabstop=8 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType cs setlocal commentstring=//\ %s
-autocmd FileType c setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType cpp setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType objc setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-autocmd FileType c setlocal commentstring=/*\ %s\ */
-autocmd FileType cpp,objc setlocal commentstring=//\ %s
-let c_no_curly_error=1
-autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=8 softtabstop=2
-autocmd FileType javascript setlocal commentstring=//\ %s
-autocmd FileType javascript noremap <buffer> <leader>r :call JsBeautify()<cr>
-autocmd FileType javascript let b:javascript_fold = 0
-let javascript_enable_domhtmlcss=1
-autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2

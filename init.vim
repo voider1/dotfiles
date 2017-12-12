@@ -18,14 +18,16 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'qpkorr/vim-bufkill'
 Plug 'mattn/webapi-vim'
+Plug 'rust-lang-nursery/rustfmt'
 
 " Syntax files
 Plug 'sheerun/vim-polyglot'
+Plug 'rust-lang/rust.vim'
 
 " Autocompletion
 Plug 'w0rp/ale'
 Plug 'sbdchd/neoformat'
-Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
@@ -145,14 +147,23 @@ let g:airline_section_z = airline#section#create_right(['%3l:%2c'])
 let g:airline#extensions#ctrlp#color_template = 'replace'
 let g:airline#extensions#tabline#enabled = 1
 
-" LSP config
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-    \ 'python': ['pyls'],
-    \ 'javascript': ['/Users/wesleygahr/Development/required/javascript-typescript-langserver/lib/language-server-stdio.js'],
-    \ }
-let g:LanguageClient_autoStart = 1
+" ALE config
+let g:airline#extensions#ale#enabled = 1
+let g:ale_completion_enabled = 1
+let g:ale_warn_about_trailing_whitespace = 1
+let g:ale_linters = {
+\   'rust': ['rls'],
+\   'python': ['pyls'],
+\}
+let g:ale_fixers = {
+\   'rust': ['rustfmt'],
+\   'python': ['autopep8'],
+\}
 
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+" ALE Rust
+let g:ale_rust_rls_executable = '/Users/wesleygahr/.cargo/bin/rls'
+let g:ale_rust_rls_toolchain = 'stable'
+
+" ALE Python
+let g:ale_python_pyls_executable = '/usr/local/bin/pyls'
+let g:ale_python_pyls_use_global = 1

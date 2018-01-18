@@ -4,7 +4,7 @@ set nocompatible
 " All Plugins!
 call plug#begin()
 " Colorscheme
-Plug 'chriskempson/base16-vim'
+Plug 'icymind/neosolarized'
 
 " Utility
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -19,16 +19,16 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'qpkorr/vim-bufkill'
 Plug 'mattn/webapi-vim'
 Plug 'rust-lang-nursery/rustfmt'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Syntax files
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
+Plug 'pest-parser/pest.vim'
 
 " Autocompletion
-Plug 'w0rp/ale'
 Plug 'sbdchd/neoformat'
-" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
 call plug#end()
 
 if has("termguicolors")
@@ -39,7 +39,8 @@ if !has("gui_running")
     set t_Co=256
 endif
 
-colorscheme base16-tomorrow-night
+colorscheme NeoSolarized
+set background=dark
 syntax on
 set nowrap " Don't wrap lines
 set tabstop=4 " Tabs are 4 spaces
@@ -95,6 +96,7 @@ nnoremap <silent><Tab> :bn<CR>
 nnoremap <silent><S-Tab> :bp<CR>
 nnoremap <silent><leader>f :Files<CR>
 tnoremap <Esc> <C-\><C-n>
+nnoremap <silent><leader>t :%s/\s\+$//e<CR>
 
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
@@ -130,12 +132,6 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
-let g:deoplete#enable_at_startup = 1
-" Deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-" let g:deoplete#disable_auto_complete = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
 " Nerdtree keybindings
 map <C-n> :NERDTreeToggle<CR>
 
@@ -147,23 +143,23 @@ let g:airline_section_z = airline#section#create_right(['%3l:%2c'])
 let g:airline#extensions#ctrlp#color_template = 'replace'
 let g:airline#extensions#tabline#enabled = 1
 
-" ALE config
-let g:airline#extensions#ale#enabled = 1
-let g:ale_completion_enabled = 1
-let g:ale_warn_about_trailing_whitespace = 1
-let g:ale_linters = {
-\   'rust': ['rls'],
-\   'python': ['pyls'],
-\}
-let g:ale_fixers = {
-\   'rust': ['rustfmt'],
-\   'python': ['autopep8'],
-\}
+" Deoplete config
+let g:deoplete#enable_at_startup = 1
+" Deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" ALE Rust
-let g:ale_rust_rls_executable = '/Users/wesleygahr/.cargo/bin/rls'
-let g:ale_rust_rls_toolchain = 'stable'
+" run RustFmt on save
+let g:autofmt_autosave = 1
 
-" ALE Python
-let g:ale_python_pyls_executable = '/usr/local/bin/pyls'
-let g:ale_python_pyls_use_global = 1
+" LanguageClient-Neovim setup
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['pyls'],
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \}
+
+noremap <silent> H :call LanguageClient_textDocument_hover()<CR>
+noremap <silent> Z :call LanguageClient_textDocument_definition()<CR>
+noremap <silent> R :call LanguageClient_textDocument_rename()<CR>
+noremap <silent> S :call LanugageClient_textDocument_documentSymbol()<CR>

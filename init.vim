@@ -25,10 +25,15 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
 Plug 'pest-parser/pest.vim'
+Plug 'vmchale/ion-vim'
 
 " Autocompletion
 Plug 'sbdchd/neoformat'
-Plug 'autozimu/LanguageClient-neovim', {'tag': 'binary-*-x86_64-apple-darwin'}
+Plug 'autozimu/LanguageClient-neovim', {
+            \ 'branch': 'next',
+            \ 'do': 'bash install.sh',
+            \}
+
 call plug#end()
 
 if has("termguicolors")
@@ -150,10 +155,11 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " run RustFmt on save
-let g:autofmt_autosave = 1
+let g:rustfmt_autosave = 1
 
 " LanguageClient-Neovim setup
 let g:LanguageClient_autoStart = 1
+let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],

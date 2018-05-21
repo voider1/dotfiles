@@ -25,7 +25,6 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
 Plug 'pest-parser/pest.vim'
-Plug 'vmchale/ion-vim'
 
 " Autocompletion
 Plug 'sbdchd/neoformat'
@@ -33,7 +32,7 @@ Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
             \}
-
+Plug 'w0rp/ale'
 call plug#end()
 
 if has("termguicolors")
@@ -54,13 +53,14 @@ set autoindent
 set copyindent " Copy the previous indentation on auto indentation
 set shiftwidth=4 " Number of spaces for auto indenting
 set shiftround " Use multiple of shiftwidth when indenting with < and >
-set showmatch " Show matching parenethesis
+set showmatch " Show matching parenthesis
 set smarttab " Insert tabs on the start of the line according to shiftwidth
 set expandtab " Insert spaces instead of tabs
 set cursorline " Highlight the line the cursor is on
 set nofoldenable " No folding
 
-set number
+set relativenumber " Relative line numbering
+set number " Now we have hybrid numbering!
 set hidden " Hide buffers instead of closing them
 set hlsearch " Highlight search terms
 set incsearch " Show mathces as you type
@@ -73,7 +73,6 @@ set noerrorbells " Don't ring the error bells
 set title
 set titleold="Terminal"
 set titlestring=%F
-set relativenumber " Relative line numbering
 let base16colorspace=256
 
 set clipboard=unnamed " Use system clipboard
@@ -85,6 +84,7 @@ set noswapfile
 set pastetoggle=<F2>
 set exrc " Enables reading .exrc in current directory
 
+set relativenumber
 let mapleader="," " Change leader to ,
 nnoremap ; :
 nmap <silent> ,/ :nohlsearch<CR>
@@ -126,9 +126,7 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 let g:fzf_buffers_jump = 1
 
-
 function! s:fzf_statusline()
-  " Override statusline as you like
   highlight fzf1 ctermfg=161 ctermbg=251
   highlight fzf2 ctermfg=23 ctermbg=251
   highlight fzf3 ctermfg=237 ctermbg=251
@@ -149,21 +147,31 @@ let g:airline#extensions#ctrlp#color_template = 'replace'
 let g:airline#extensions#tabline#enabled = 1
 
 " Deoplete config
-let g:deoplete#enable_at_startup = 1
+ let g:deoplete#enable_at_startup = 1
 " Deoplete tab-complete
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" run RustFmt on save
-let g:rustfmt_autosave = 1
-
 " LanguageClient-Neovim setup
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_loadSettings = 1
+let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],
     \}
+
+" Ale config
+let g:ale_rust_rls_toolchain = "stable"
+let g:ale_linters = {
+            \ 'python': ['pylint', 'pyls'],
+            \ 'rust': ['rls', 'cargo'],
+            \ }
+
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+            \ 'rust': ['rustfmt'],
+            \ }
 
 noremap <silent> H :call LanguageClient_textDocument_hover()<CR>
 noremap <silent> Z :call LanguageClient_textDocument_definition()<CR>

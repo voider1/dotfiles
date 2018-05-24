@@ -7,8 +7,8 @@ call plug#begin()
 Plug 'icymind/neosolarized'
 
 " Utility
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
+Plug 'lotabout/skim.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
@@ -31,7 +31,10 @@ Plug 'sbdchd/neoformat'
 Plug 'autozimu/LanguageClient-neovim', {
             \ 'branch': 'next',
             \ 'do': 'bash install.sh',
-            \}
+            \ }
+Plug 'roxma/LanguageServer-php-neovim',  {
+            \'do': 'composer install && composer run-script parse-stubs',
+            \ }
 Plug 'w0rp/ale'
 call plug#end()
 
@@ -130,7 +133,7 @@ function! s:fzf_statusline()
   highlight fzf1 ctermfg=161 ctermbg=251
   highlight fzf2 ctermfg=23 ctermbg=251
   highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+  setlocal statusline=skim
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
@@ -158,19 +161,22 @@ let g:LanguageClient_loadSettings = 1
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
-    \}
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'php': ['php', '~/.tooling/php-language-server/bin/php-language-server.php'],
+    \ }
 
 " Ale config
-let g:ale_rust_rls_toolchain = "stable"
+let g:ale_rust_rls_toolchain = "nightly"
 let g:ale_linters = {
             \ 'python': ['pylint', 'pyls'],
             \ 'rust': ['rls', 'cargo'],
+            \ 'php': ['langserver', 'php_cs_fixer'],
             \ }
 
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
             \ 'rust': ['rustfmt'],
+            \ 'php': ['php_cs_fixer'],
             \ }
 
 noremap <silent> H :call LanguageClient_textDocument_hover()<CR>

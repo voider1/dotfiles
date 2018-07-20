@@ -8,7 +8,7 @@ Plug 'icymind/neosolarized'
 
 " Utility
 Plug 'lotabout/skim', { 'dir': '~/.skim', 'do': './install' }
-Plug 'lotabout/skim.vim'
+Plug 'lotabout/skim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
@@ -25,6 +25,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sheerun/vim-polyglot'
 Plug 'rust-lang/rust.vim'
 Plug 'pest-parser/pest.vim'
+Plug 'mzlogin/vim-smali'
 
 " Autocompletion
 Plug 'sbdchd/neoformat'
@@ -102,7 +103,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <silent><Tab> :bn<CR>
 nnoremap <silent><S-Tab> :bp<CR>
-nnoremap <silent><leader>f :Files<CR>
+nnoremap <silent><leader>f :SK<CR>
 tnoremap <Esc> <C-\><C-n>
 nnoremap <silent><leader>t :%s/\s\+$//e<CR>
 
@@ -130,10 +131,11 @@ let g:fzf_colors =
 let g:fzf_buffers_jump = 1
 
 function! s:fzf_statusline()
+  " Override statusline as you like
   highlight fzf1 ctermfg=161 ctermbg=251
   highlight fzf2 ctermfg=23 ctermbg=251
   highlight fzf3 ctermfg=237 ctermbg=251
-  setlocal statusline=skim
+  setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
@@ -163,6 +165,7 @@ let g:LanguageClient_serverCommands = {
     \ 'python': ['pyls'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ 'php': ['php', '~/.tooling/php-language-server/bin/php-language-server.php'],
+    \ 'sh': ['bash-language-sever', 'start'],
     \ }
 
 " Ale config
@@ -171,12 +174,14 @@ let g:ale_linters = {
             \ 'python': ['pylint', 'pyls'],
             \ 'rust': ['rls', 'cargo'],
             \ 'php': ['langserver', 'php_cs_fixer'],
+            \ 'bash': ['shellcheck'],
             \ }
 
 let g:ale_fix_on_save = 1
 let g:ale_fixers = {
             \ 'rust': ['rustfmt'],
             \ 'php': ['php_cs_fixer'],
+            \ 'bash': ['shfmt'],
             \ }
 
 noremap <silent> H :call LanguageClient_textDocument_hover()<CR>
